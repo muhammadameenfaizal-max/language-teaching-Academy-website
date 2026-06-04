@@ -1,0 +1,1769 @@
+<!DOCTYPE html>
+<html lang="en" class="dark h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Teaching Academy - World Countries & Languages</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for premium UI typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-10px)' },
+            },
+            glow: {
+              '0%': { boxShadow: '0 0 5px rgba(99, 102, 241, 0.2), 0 0 10px rgba(99, 102, 241, 0.2)' },
+              '100%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.6), 0 0 35px rgba(168, 85, 247, 0.4)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Premium visual styles & custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .neon-border {
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+    }
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500/30 selection:text-indigo-200">
+
+  <!-- Background Ambient Glows -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-900/20 blur-[120px] animate-pulse-slow"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-purple-900/20 blur-[120px] animate-pulse-slow" style="animation-delay: 1.5s"></div>
+  </div>
+
+  <!-- Header Section -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-slate-950/85 border-b border-slate-900 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-4">
+      <div class="flex items-center gap-3">
+        <div class="p-2.5 bg-gradient-to-tr from-indigo-500 to-purple-600 rounded-2xl shadow-indigo-500/20 shadow-lg animate-float">
+          <i data-lucide="globe" class="w-6 h-6 text-white"></i>
+        </div>
+        <div>
+          <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Language Teaching Academy</span>
+          <span class="text-[10px] block text-slate-400 uppercase tracking-widest font-semibold">Your Interactive Global Portal</span>
+        </div>
+      </div>
+
+      <!-- Gamified Player Status Bar -->
+      <div class="flex items-center gap-4 sm:gap-6">
+        <!-- Stats Container (Visible always but updates dynamically) -->
+        <div class="hidden md:flex items-center gap-3 bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-800">
+          <div class="flex items-center gap-1.5 text-amber-400">
+            <i data-lucide="zap" class="w-4 h-4 fill-amber-400"></i>
+            <span class="font-bold text-sm" id="user-xp">0 XP</span>
+          </div>
+          <div class="h-4 w-px bg-slate-800"></div>
+          <div class="flex items-center gap-1.5 text-rose-500">
+            <i data-lucide="heart" class="w-4 h-4 fill-rose-500"></i>
+            <span class="font-bold text-sm" id="user-streak">3 Day Streak</span>
+          </div>
+          <div class="h-4 w-px bg-slate-800"></div>
+          <div class="flex items-center gap-1.5 text-indigo-400">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span class="font-semibold text-xs" id="user-badge font-display">Beginner Path</span>
+          </div>
+        </div>
+
+        <!-- Custom User Profile Area -->
+        <div id="header-auth-zone" class="flex items-center gap-2">
+          <!-- Populated dynamically via auth State -->
+          <button onclick="openAuthModal()" class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-md flex items-center gap-1.5">
+            <i data-lucide="log-in" class="w-4 h-4"></i> Sign In / Join
+          </button>
+        </div>
+
+        <!-- Mute Sound Toggle -->
+        <button id="toggle-audio-btn" class="p-2.5 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-850 text-slate-300 hover:text-white transition-all" title="Toggle Sound FX">
+          <i id="audio-icon" data-lucide="volume-2" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Hub -->
+  <nav class="bg-slate-900/50 border-b border-slate-900/80 sticky top-18 z-30 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex space-x-1 py-2 overflow-x-auto no-scrollbar">
+        <button onclick="switchTab('explorer')" id="tab-explorer" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-sm">
+          <i data-lucide="map-pin" class="w-4 h-4"></i> World Explorer
+        </button>
+        <button onclick="switchTab('lessons')" id="tab-lessons" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+          <i data-lucide="book-open" class="w-4 h-4"></i> Lessons
+        </button>
+        <button onclick="switchTab('flashcards')" id="tab-flashcards" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+          <i data-lucide="layers" class="w-4 h-4"></i> Flashcards
+        </button>
+        <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800">
+          <i data-lucide="gamepad-2" class="w-4 h-4"></i> Lingo Arena
+        </button>
+        <button onclick="switchTab('ai')" id="tab-ai" class="tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 relative">
+          <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-full animate-ping"></span>
+          <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-gradient-to-tr from-purple-500 to-pink-500 rounded-full"></span>
+          <i data-lucide="sparkles" class="w-4 h-4 text-purple-400"></i> AI Language Buddy
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Notification Banner / Custom Toast Area -->
+  <div id="toast-container" class="fixed top-24 right-4 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- Main Content Area -->
+  <main class="flex-grow z-10 py-6 sm:py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- ==================== WORLD EXPLORER TAB ==================== -->
+      <section id="pane-explorer" class="tab-pane block space-y-6">
+        <!-- Explorer Header & Filters -->
+        <div class="bg-slate-900/65 rounded-3xl p-6 border border-slate-900 shadow-xl backdrop-blur-md">
+          <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+            <div class="space-y-1 text-center md:text-left">
+              <h2 class="text-2xl font-bold font-display tracking-tight text-white flex items-center gap-2 justify-center md:justify-start">
+                <i data-lucide="map" class="w-6 h-6 text-indigo-400"></i> Continent &amp; Language Explorer
+              </h2>
+              <p class="text-slate-400 text-sm">Discover nations across 6 continents, learn their official languages, and listen to spoken greetings!</p>
+            </div>
+            
+            <!-- Quick search & continent selector -->
+            <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <div class="relative flex-grow">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-slate-500"></i>
+                <input type="text" id="search-country-input" oninput="filterCountries()" placeholder="Search country, capital, or language..." class="w-full sm:w-64 pl-10 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-all">
+              </div>
+              <select id="continent-filter" onchange="filterCountries()" class="px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-indigo-500 transition-all cursor-pointer">
+                <option value="All">All Continents</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Africa">Africa</option>
+                <option value="North America">North America</option>
+                <option value="South America">South America</option>
+                <option value="Oceania">Oceania</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Country Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="explorer-grid">
+          <!-- Dynamic injected items will appear here -->
+        </div>
+      </section>
+
+      <!-- ==================== GUIDED LESSONS TAB ==================== -->
+      <section id="pane-lessons" class="tab-pane hidden space-y-6">
+        <div class="bg-slate-900/65 rounded-3xl p-6 border border-slate-900 shadow-xl backdrop-blur-md mb-8">
+          <div class="max-w-2xl">
+            <span class="px-3 py-1 text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-full">Interactive Modules</span>
+            <h2 class="text-2xl font-bold font-display tracking-tight text-white mt-2">Linguistic Journey</h2>
+            <p class="text-slate-400 text-sm mt-1">Embark on structured lessons curated by our native speaking experts. Perfect your knowledge family-by-family and unlock specialized badges!</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Lesson Navigation Tree -->
+          <div class="md:col-span-1 space-y-3 flex flex-col" id="lesson-selector-container">
+            <!-- Dynamically populated lessons -->
+          </div>
+
+          <!-- Active Lesson Interactive Card -->
+          <div class="md:col-span-2 bg-slate-900/80 border border-slate-850 rounded-3xl p-6 sm:p-8 flex flex-col justify-between" id="active-lesson-box">
+            <!-- Loaded inside showLesson() -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== FLASHCARDS TAB ==================== -->
+      <section id="pane-flashcards" class="tab-pane hidden space-y-6">
+        <div class="bg-slate-900/65 rounded-3xl p-6 border border-slate-900 shadow-xl backdrop-blur-md flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div class="space-y-1 text-center sm:text-left">
+            <h2 class="text-2xl font-bold font-display text-white">Active Recalling</h2>
+            <p class="text-slate-400 text-sm">Flip cards to match the country with its primary language &amp; native greeting!</p>
+          </div>
+          <!-- Filter for flashcard category -->
+          <select id="flashcard-continent" onchange="initFlashcards()" class="px-4 py-2 bg-slate-950 border border-slate-800 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-indigo-500">
+            <option value="All">All Continents</option>
+            <option value="Asia">Asia</option>
+            <option value="Europe">Europe</option>
+            <option value="Africa">Africa</option>
+            <option value="North America">North / South America</option>
+          </select>
+        </div>
+
+        <!-- Interactive 3D Card Deck -->
+        <div class="flex flex-col items-center justify-center max-w-lg mx-auto py-8">
+          <div class="w-full h-80 perspective-1000 group cursor-pointer" onclick="flipFlashcard()">
+            <div id="flashcard-inner" class="w-full h-full transform-style-3d transition-transform duration-500 relative">
+              
+              <!-- Front Side -->
+              <div class="absolute inset-0 bg-slate-900 border-2 border-indigo-500/30 rounded-3xl p-8 flex flex-col justify-between items-center backface-hidden shadow-2xl">
+                <span class="text-xs font-semibold tracking-widest text-indigo-400 uppercase">Identify Spoken Language</span>
+                <div class="flex flex-col items-center gap-4">
+                  <span id="fc-flag" class="text-7xl">🇺🇸</span>
+                  <h3 id="fc-country" class="font-display font-extrabold text-3xl text-white">United States</h3>
+                  <p id="fc-capital" class="text-slate-400 text-sm">Capital: Washington D.C.</p>
+                </div>
+                <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                  <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Tap to flip &amp; reveal native language
+                </div>
+              </div>
+
+              <!-- Back Side -->
+              <div class="absolute inset-0 bg-gradient-to-b from-indigo-950 to-slate-900 border-2 border-purple-500/30 rounded-3xl p-8 flex flex-col justify-between items-center rotate-y-180 backface-hidden shadow-2xl">
+                <span class="text-xs font-semibold tracking-widest text-purple-400 uppercase">Linguistic Profile</span>
+                <div class="flex flex-col items-center text-center gap-3">
+                  <span class="text-slate-400 text-xs">Official &amp; National Language</span>
+                  <h4 id="fc-language" class="font-display font-extrabold text-4xl text-indigo-300">English</h4>
+                  
+                  <div class="mt-2 p-3 bg-slate-950/60 rounded-2xl border border-slate-800/80 w-full max-w-xs flex flex-col items-center">
+                    <span class="text-[10px] text-purple-400 uppercase font-bold tracking-wider">Useful Phrase ("Hello")</span>
+                    <span id="fc-greeting" class="font-bold text-lg text-white mt-0.5">Hello</span>
+                    <button id="fc-speak" onclick="event.stopPropagation(); playFlashcardGreeting();" class="mt-2 p-1.5 rounded-lg bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/35 transition-all text-xs flex items-center gap-1">
+                      <i data-lucide="volume-2" class="w-3.5 h-3.5"></i> Pronounce
+                    </button>
+                  </div>
+                </div>
+                <div class="text-[10px] text-slate-500 uppercase tracking-widest">Mastered? Keep Practicing!</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Controls under flashcard -->
+          <div class="flex items-center gap-6 mt-6">
+            <button onclick="prevFlashcard()" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-all">
+              <i data-lucide="chevron-left" class="w-6 h-6"></i>
+            </button>
+            <span class="text-slate-400 font-medium text-sm" id="fc-counter">Card 1 of 20</span>
+            <button onclick="nextFlashcard()" class="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-all">
+              <i data-lucide="chevron-right" class="w-6 h-6"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== LINGO ARENA TAB (GAMIFIED QUIZZES) ==================== -->
+      <section id="pane-quiz" class="tab-pane hidden space-y-6">
+        <!-- Dashboard/Start Quiz Menu -->
+        <div id="quiz-intro-panel" class="max-w-2xl mx-auto bg-slate-900/65 rounded-3xl border border-slate-900 p-6 sm:p-8 shadow-xl backdrop-blur-md space-y-6 text-center">
+          <div class="w-16 h-16 bg-gradient-to-tr from-rose-500 to-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+            <i data-lucide="gamepad-2" class="w-8 h-8 text-white"></i>
+          </div>
+          <div class="space-y-2">
+            <h2 class="text-3xl font-extrabold font-display text-white">Lingo Arena Duel</h2>
+            <p class="text-slate-400 text-sm">Test your geographical linguistic skills! Speed, precision, and global vocabulary knowledge are tested in our customized challenges.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+            <button onclick="startQuiz('language')" class="p-4 bg-slate-950 border border-slate-800 rounded-2xl hover:border-indigo-500/50 hover:bg-slate-900 transition-all group">
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-500/10 rounded-xl group-hover:bg-indigo-500/20 text-indigo-400">
+                  <i data-lucide="globe-2" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Country &rarr; Language</h4>
+                  <p class="text-slate-500 text-xs mt-0.5">Match the country with its national tongue.</p>
+                </div>
+              </div>
+            </button>
+
+            <button onclick="startQuiz('greeting')" class="p-4 bg-slate-950 border border-slate-800 rounded-2xl hover:border-purple-500/50 hover:bg-slate-900 transition-all group">
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-purple-500/10 rounded-xl group-hover:bg-purple-500/20 text-purple-400">
+                  <i data-lucide="message-square" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Phrase Mastery</h4>
+                  <p class="text-slate-500 text-xs mt-0.5">Identify which language owns the greeting.</p>
+                </div>
+              </div>
+            </button>
+
+            <button onclick="startQuiz('capital')" class="p-4 bg-slate-950 border border-slate-800 rounded-2xl hover:border-emerald-500/50 hover:bg-slate-900 transition-all group">
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-emerald-500/10 rounded-xl group-hover:bg-emerald-500/20 text-emerald-400">
+                  <i data-lucide="building" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Capital Cities</h4>
+                  <p class="text-slate-500 text-xs mt-0.5">Match world nations with their capitals.</p>
+                </div>
+              </div>
+            </button>
+
+            <button onclick="startQuiz('reverse')" class="p-4 bg-slate-950 border border-slate-800 rounded-2xl hover:border-amber-500/50 hover:bg-slate-900 transition-all group">
+              <div class="flex items-center gap-3">
+                <div class="p-2 bg-amber-500/10 rounded-xl group-hover:bg-amber-500/20 text-amber-400">
+                  <i data-lucide="languages" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-white text-sm">Language &rarr; Country</h4>
+                  <p class="text-slate-500 text-xs mt-0.5">Determine who speaks the requested dialect.</p>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Quiz Session Dashboard -->
+        <div id="quiz-live-panel" class="max-w-2xl mx-auto bg-slate-900 border border-slate-850 rounded-3xl p-6 sm:p-8 shadow-2xl hidden space-y-6">
+          <div class="flex justify-between items-center">
+            <span class="text-xs font-semibold uppercase tracking-wider text-indigo-400" id="quiz-mode-label">Topic: Language Matching</span>
+            <div class="flex items-center gap-2">
+              <span class="text-slate-400 text-sm">Timer:</span>
+              <span id="quiz-timer" class="font-bold text-rose-400">15s</span>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full bg-slate-950 h-2.5 rounded-full overflow-hidden">
+            <div id="quiz-progress" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-300"></div>
+          </div>
+
+          <!-- Question Content -->
+          <div class="space-y-4 text-center">
+            <span id="q-flag" class="text-6xl inline-block animate-float">🇪🇸</span>
+            <h3 id="q-text" class="text-2xl font-bold font-display text-white">Which language is spoken in Spain?</h3>
+          </div>
+
+          <!-- Answer Options -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="q-options">
+            <!-- Programmatically inserted multiple choices -->
+          </div>
+        </div>
+
+        <!-- Quiz Score / Recap Panel -->
+        <div id="quiz-score-panel" class="max-w-xl mx-auto bg-slate-900/65 rounded-3xl border border-slate-900 p-8 shadow-2xl hidden text-center space-y-6">
+          <div class="relative inline-block">
+            <svg class="w-24 h-24 transform -rotate-90">
+              <circle cx="48" cy="48" r="40" stroke="#1e293b" stroke-width="8" fill="transparent" />
+              <circle id="score-progress-ring" cx="48" cy="48" r="40" stroke="#6366f1" stroke-width="8" fill="transparent" stroke-dasharray="251.2" stroke-dashoffset="0" class="transition-all duration-500" />
+            </svg>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+              <span id="score-text" class="text-2xl font-bold font-display text-white">5/5</span>
+              <span class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Accuracy</span>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold font-display text-white">Quiz Completed!</h3>
+            <p id="score-achievement" class="text-emerald-400 font-semibold mt-1">Excellent Job! Perfect Score!</p>
+            <p class="text-slate-400 text-sm mt-1" id="score-reward-xp">+100 XP added to linguistic status.</p>
+          </div>
+
+          <div class="flex items-center gap-3 justify-center">
+            <button onclick="resetQuizDashboard()" class="px-6 py-2.5 bg-slate-950 hover:bg-slate-900 text-slate-200 border border-slate-800 rounded-xl font-medium transition-all text-sm">
+              Back to Menu
+            </button>
+            <button id="retry-quiz-btn" class="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl font-semibold shadow-lg transition-all text-sm">
+              Challenge Again
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== GEMINI AI COMPANION TAB ==================== -->
+      <section id="pane-ai" class="tab-pane hidden space-y-6">
+        <div class="bg-slate-900/65 rounded-3xl p-6 border border-slate-900 shadow-xl backdrop-blur-md">
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <h2 class="text-2xl font-bold font-display text-white flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-6 h-6 text-purple-400"></i> AI Language Buddy
+              </h2>
+              <p class="text-slate-400 text-sm">Powered by Gemini. Ask translation queries, generate custom phonetic mnemonics, or request cultural dialect trivia.</p>
+            </div>
+            <!-- Alert Info indicating simulated safe key or active query -->
+            <div class="px-3.5 py-1.5 bg-purple-500/10 border border-purple-500/20 text-purple-400 rounded-xl text-xs flex items-center gap-2 self-start md:self-auto">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+              </span>
+              Gemini Intelligent Engine Active
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Frame -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          
+          <!-- Presets panel -->
+          <div class="lg:col-span-1 space-y-3">
+            <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest block px-1">Linguistic Sparks</span>
+            <button onclick="aiPromptPreset('Give me a memorable story or mnemonic to remember how to count 1 to 5 in Swahili.')" class="w-full text-left p-3.5 bg-slate-900 border border-slate-850 hover:bg-slate-850 hover:border-slate-800 transition-all rounded-xl text-xs text-slate-300">
+              <span class="font-bold block text-white mb-0.5">Swahili Counting</span>
+              Mnemonic device for numbers 1-5 in Swahili.
+            </button>
+            <button onclick="aiPromptPreset('Explain why Swahili has so many borrowed words from Arabic and English, and show a few examples.')" class="w-full text-left p-3.5 bg-slate-900 border border-slate-850 hover:bg-slate-850 hover:border-slate-800 transition-all rounded-xl text-xs text-slate-300">
+              <span class="font-bold block text-white mb-0.5">Etymological Trivia</span>
+              Arabic influence on Eastern African languages.
+            </button>
+            <button onclick="aiPromptPreset('Give me 5 essential colloquial slang phrases used daily in Rio de Janeiro, Brazil with pronunciations.')" class="w-full text-left p-3.5 bg-slate-900 border border-slate-850 hover:bg-slate-850 hover:border-slate-800 transition-all rounded-xl text-xs text-slate-300">
+              <span class="font-bold block text-white mb-0.5">Slang Flashcards</span>
+              Daily slang expressions in Brazilian Portuguese.
+            </button>
+          </div>
+
+          <!-- Conversational Interface -->
+          <div class="lg:col-span-3 bg-slate-900/80 border border-slate-850 rounded-3xl h-[450px] flex flex-col justify-between overflow-hidden">
+            <!-- Messages Frame -->
+            <div id="ai-chat-history" class="p-4 sm:p-6 flex-grow overflow-y-auto space-y-4">
+              <div class="flex gap-3 max-w-xl">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                  AI
+                </div>
+                <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-sm leading-relaxed text-slate-300">
+                  Hello linguistic pioneer! I am your AI Global Coach at the Language Teaching Academy. Click any country details to explore language roots, ask me to translate a sentence, or try out the presets on the left. How can I help you today?
+                </div>
+              </div>
+            </div>
+
+            <!-- Loader indicator inside text area -->
+            <div id="ai-loader" class="px-6 py-2 bg-indigo-500/10 border-t border-b border-indigo-500/20 text-indigo-300 text-xs flex items-center gap-2 hidden">
+              <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce"></div>
+              <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></div>
+              <div class="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></div>
+              <span>Gemini is compiling linguistic history...</span>
+            </div>
+
+            <!-- Text area -->
+            <div class="p-4 bg-slate-950/80 border-t border-slate-850 flex items-center gap-2">
+              <input type="text" id="ai-user-input" onkeydown="handleAiInput(event)" placeholder="Ask about pronunciations, grammatical roots, grammar drills, or history..." class="flex-grow bg-slate-900 border border-slate-800 text-sm text-white px-4 py-3 rounded-2xl focus:outline-none focus:border-indigo-500">
+              <button onclick="submitAiQuery()" class="p-3 bg-gradient-to-tr from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-2xl shadow-md transition-all shrink-0">
+                <i data-lucide="send" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== ONBOARDING & SIGN IN MODAL ==================== -->
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 w-full max-w-lg shadow-2xl relative space-y-6">
+      
+      <!-- Top Actions -->
+      <div class="flex justify-between items-start">
+        <div class="flex items-center gap-2">
+          <div class="p-1.5 bg-indigo-500/20 text-indigo-400 rounded-lg">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-xl font-extrabold font-display text-white">Join Academy Portal</h3>
+            <p class="text-xs text-slate-400">Unlock your interactive placement & progress tracker</p>
+          </div>
+        </div>
+        <button onclick="closeAuthModal()" class="text-slate-400 hover:text-white transition-all p-1 hover:bg-slate-850 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <!-- ONBOARDING FLOW: PANEL 1 (SIGN IN / AUTH FORM) -->
+      <div id="auth-panel-form" class="space-y-4">
+        
+        <!-- Google Authentication Button -->
+        <button onclick="continueWithGoogle()" class="w-full py-3 px-4 bg-white hover:bg-slate-100 text-slate-900 rounded-xl font-bold text-sm shadow-md transition-all flex items-center justify-center gap-2.5">
+          <!-- Colorful Google Icon Built via Clean Custom SVG path -->
+          <svg class="w-4 h-4" viewBox="0 0 24 24">
+            <path fill="#EA4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.67 1.6 15.02 1 12 1 7.35 1 3.4 3.65 1.54 7.54l3.86 3C6.32 7.56 8.94 5.04 12 5.04z"/>
+            <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.51h6.44c-.28 1.47-1.11 2.71-2.36 3.55l3.66 2.84c2.14-1.97 3.38-4.88 3.38-8.54z"/>
+            <path fill="#FBBC05" d="M5.4 14.46c-.24-.71-.38-1.47-.38-2.26s.14-1.55.38-2.26L1.54 6.94C.56 8.95 0 11.19 0 13.5s.56 4.55 1.54 6.56l3.86-3z"/>
+            <path fill="#34A853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.66-2.84c-1.01.67-2.31 1.08-3.9 1.08-3.06 0-5.68-2.52-6.6-5.5l-3.86 3C3.4 20.35 7.35 23 12 23z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <div class="flex items-center gap-3 my-2">
+          <div class="h-px bg-slate-800 flex-grow"></div>
+          <span class="text-[10px] uppercase font-bold text-slate-500 tracking-wider shrink-0">Or Sign In with Email</span>
+          <div class="h-px bg-slate-800 flex-grow"></div>
+        </div>
+
+        <!-- Simulated Fields -->
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5">Email Address</label>
+            <div class="relative">
+              <i data-lucide="mail" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"></i>
+              <input type="email" id="auth-email-input" placeholder="pioneer@academy.com" class="w-full bg-slate-950 border border-slate-850 rounded-xl py-2.5 pl-10 pr-4 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1.5">Password</label>
+            <div class="relative">
+              <i data-lucide="lock" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500"></i>
+              <input type="password" id="auth-password-input" placeholder="••••••••••••" class="w-full bg-slate-950 border border-slate-850 rounded-xl py-2.5 pl-10 pr-11 text-sm text-white focus:outline-none focus:border-indigo-500 transition-all">
+              <button onclick="togglePasswordVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-all">
+                <i id="auth-eye-icon" data-lucide="eye" class="w-4.5 h-4.5"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="submitEmailAuth()" class="w-full py-3 bg-gradient-to-tr from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-xl font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-1.5">
+          <i data-lucide="sparkles" class="w-4 h-4"></i> Access Student Dashboard
+        </button>
+      </div>
+
+      <!-- ONBOARDING FLOW: PANEL 2 (LEVEL PLACEMENT SELECTOR) -->
+      <div id="auth-panel-placement" class="space-y-4 hidden">
+        <div class="text-center space-y-1.5 mb-2">
+          <h4 class="text-md font-bold text-indigo-300 font-display">Let's Choose Your Learning Path</h4>
+          <p class="text-xs text-slate-400">Select where your current language knowledge aligns for customized placement starting rewards.</p>
+        </div>
+
+        <div class="space-y-3">
+          <!-- Beginner Card -->
+          <button onclick="selectOnboardingLevel('beginner')" class="w-full p-4 bg-slate-950 border border-slate-850 hover:border-indigo-500/50 hover:bg-slate-900 rounded-2xl text-left transition-all group flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+              <div class="p-2.5 bg-indigo-500/15 text-indigo-400 rounded-xl group-hover:bg-indigo-500/25 transition-all">
+                <i data-lucide="baby" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-sm text-white font-display">Beginner Path</h5>
+                <p class="text-slate-400 text-xs">New to global vocabulary. Start with basic stems.</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="px-2 py-1 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-md font-bold text-[9px]">+10 Starting XP</span>
+            </div>
+          </button>
+
+          <!-- Intermediate Card -->
+          <button onclick="selectOnboardingLevel('intermediate')" class="w-full p-4 bg-slate-950 border border-slate-850 hover:border-purple-500/50 hover:bg-slate-900 rounded-2xl text-left transition-all group flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+              <div class="p-2.5 bg-purple-500/15 text-purple-400 rounded-xl group-hover:bg-purple-500/25 transition-all">
+                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-sm text-white font-display">Intermediate Path</h5>
+                <p class="text-slate-400 text-xs">Know standard phrases. Boost to Germanic trees.</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="px-2 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/20 rounded-md font-bold text-[9px]">+150 Starting XP</span>
+            </div>
+          </button>
+
+          <!-- Advanced Card -->
+          <button onclick="selectOnboardingLevel('advanced')" class="w-full p-4 bg-slate-950 border border-slate-850 hover:border-amber-500/50 hover:bg-slate-900 rounded-2xl text-left transition-all group flex items-center justify-between">
+            <div class="flex items-center gap-3.5">
+              <div class="p-2.5 bg-amber-500/15 text-amber-400 rounded-xl group-hover:bg-amber-500/25 transition-all">
+                <i data-lucide="crown" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <h5 class="font-bold text-sm text-white font-display">Advanced Polyglot</h5>
+                <p class="text-slate-400 text-xs">Know dynamic tone shifts and grammar trees.</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="px-2 py-1 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded-md font-bold text-[9px]">+300 Starting XP</span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer Info -->
+  <footer class="mt-auto bg-slate-950 border-t border-slate-900 py-6 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2 justify-center sm:justify-start">
+        <i data-lucide="globe-2" class="w-4 h-4 text-indigo-500"></i>
+        <span>Language Teaching Academy &copy; 2026. All Global Rights Reserved.</span>
+      </div>
+      <div class="flex gap-4">
+        <a href="#" onclick="showCustomModal('Language Teaching Academy Credits', 'Design: Neural Expressive UI Engine\nInteractive Engine: HTML5 + TailwindCSS\nLinguistic Dataset: 100+ countries with dynamic greetings & pronunciations.')" class="hover:text-slate-300 transition-all">Academy Credits</a>
+        <span class="text-slate-700">|</span>
+        <a href="#" onclick="showCustomModal('Voice Engine Info', 'This application leverages the built-in Web Speech API SpeechSynthesis engine. For optimal voice quality, ensure you have international languages configured on your OS/device keyboard settings.')" class="hover:text-slate-300 transition-all">Voice Setup Tips</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Universal Custom Modal Box (Avoid Standard Browser Alerts) -->
+  <div id="custom-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 w-full max-w-md shadow-2xl space-y-4">
+      <div class="flex justify-between items-start">
+        <h3 id="modal-title" class="text-lg font-bold font-display text-white">System Message</h3>
+        <button onclick="closeCustomModal()" class="text-slate-400 hover:text-white transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="text-sm text-slate-300 leading-relaxed whitespace-pre-line" id="modal-body">
+        Modal Content
+      </div>
+      <div class="flex justify-end pt-2">
+        <button onclick="closeCustomModal()" class="px-5 py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-xl text-sm shadow-md transition-all">
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION JAVASCRIPT & EXPERIMENTAL MOTORS -->
+  <script>
+    // --- STATIC MULTILINGUAL WORLD DATASET ---
+    // Expanded, complete data structure with flags, language, phonetic greeting, capital, BCP-47 Code for SpeechSynthesis
+    const countriesDataset = [
+      { id: "jp", name: "Japan", capital: "Tokyo", continent: "Asia", flag: "🇯🇵", language: "Japanese", hello: "Konnichiwa (こんにちは)", voiceCode: "ja-JP", family: "Japonic", funFact: "Has over 14,000 islands and the language uses three alphabets (Hiragana, Katakana, and Kanji)." },
+      { id: "br", name: "Brazil", capital: "Brasília", continent: "South America", flag: "🇧🇷", language: "Portuguese", hello: "Olá", voiceCode: "pt-BR", family: "Romance", funFact: "Portuguese is spoken here due to historical colonial maps, while all neighboring nations speak Spanish." },
+      { id: "eg", name: "Egypt", capital: "Cairo", continent: "Africa", flag: "🇪🇬", language: "Arabic", hello: "Marhaban (مرحباً)", voiceCode: "ar-EG", family: "Afroasiatic", funFact: "Modern Egyptian Arabic is the most widely understood dialect in the Arab world due to a huge cinema industry." },
+      { id: "fr", name: "France", capital: "Paris", continent: "Europe", flag: "🇫🇷", language: "French", hello: "Bonjour", voiceCode: "fr-FR", family: "Romance", funFact: "French is an official language in 29 independent nations across Europe, Africa, and North America." },
+      { id: "de", name: "Germany", capital: "Berlin", continent: "Europe", flag: "🇩🇪", language: "German", hello: "Hallo", voiceCode: "de-DE", family: "Germanic", funFact: "German nouns are capitalized, and the language has three gender markers (Masculine, Feminine, and Neuter)." },
+      { id: "in", name: "India", capital: "New Delhi", continent: "Asia", flag: "🇮🇳", language: "Hindi", hello: "Namaste (नमस्ते)", voiceCode: "hi-IN", family: "Indo-Aryan", funFact: "India has 22 officially recognized languages, written in 13 distinct native alphabets." },
+      { id: "ke", name: "Kenya", capital: "Nairobi", continent: "Africa", flag: "🇰🇪", language: "Swahili", hello: "Jambo", voiceCode: "sw-KE", family: "Niger-Congo", funFact: "Swahili is a beautiful hybrid language blending ancient Bantu grammar with rich Arabic vocabulary roots." },
+      { id: "mx", name: "Mexico", capital: "Mexico City", continent: "North America", flag: "🇲🇽", language: "Spanish", hello: "Hola", voiceCode: "es-MX", family: "Romance", funFact: "Mexico is home to the largest population of Spanish speakers in the world." },
+      { id: "it", name: "Italy", capital: "Rome", continent: "Europe", flag: "🇮🇹", language: "Italian", hello: "Ciao", voiceCode: "it-IT", family: "Romance", funFact: "Modern standard Italian is directly based on the Tuscan dialect of Florence popularized by Dante's poetry." },
+      { id: "kr", name: "South Korea", capital: "Seoul", continent: "Asia", flag: "🇰🇷", language: "Korean", hello: "Annyeonghaseyo (안녕하세요)", voiceCode: "ko-KR", family: "Koreanic", funFact: "The Korean alphabet, Hangul, was engineered purposefully in 1443 to increase regional literacy." },
+      { id: "za", name: "South Africa", capital: "Pretoria", continent: "Africa", flag: "🇿🇦", language: "Zulu", hello: "Sawubona", voiceCode: "zu-ZA", family: "Bantu", funFact: "South Africa has 11 official languages including Zulu, Xhosa, Afrikaans, and English." },
+      { id: "vn", name: "Vietnam", capital: "Hanoi", continent: "Asia", flag: "🇻🇳", language: "Vietnamese", hello: "Xin chào", voiceCode: "vi-VN", family: "Austroasiatic", funFact: "Vietnamese uses a Latin-based script with extensive tone marks added above and below vowel sounds." },
+      { id: "se", name: "Sweden", capital: "Stockholm", continent: "Europe", flag: "🇸🇪", language: "Swedish", hello: "Hej", voiceCode: "sv-SE", family: "Germanic", funFact: "Swedish has pitch accents, meaning a change in vocal pitch changes the complete meaning of standard words." },
+      { id: "th", name: "Thailand", capital: "Bangkok", continent: "Asia", flag: "🇹🇭", language: "Thai", hello: "Sawatdee (สวัสดี)", voiceCode: "th-TH", family: "Kra-Dai", funFact: "Thai is a tonal language with five distinct musical tones that must be practiced precisely." },
+      { id: "tr", name: "Turkey", capital: "Ankara", continent: "Europe", flag: "🇹🇷", language: "Turkish", hello: "Merhaba", voiceCode: "tr-TR", family: "Turkic", funFact: "Turkish grammar operates completely on agglutination, suffix stacking to produce massive compound words." },
+      { id: "gr", name: "Greece", capital: "Athens", continent: "Europe", flag: "🇬🇷", language: "Greek", hello: "Yassas (Γειά σας)", voiceCode: "el-GR", family: "Hellenic", funFact: "Greek has one of the longest recorded histories of any language, spanning over 34 centuries." },
+      { id: "ca", name: "Canada", capital: "Ottawa", continent: "North America", flag: "🇨🇦", language: "French", hello: "Allô / Bonjour", voiceCode: "fr-CA", family: "Romance", funFact: "Canada is officially bilingual. Quebec speaks a distinctive variant of French with elements of 17th-century phonetics." },
+      { id: "cn", name: "China", capital: "Beijing", continent: "Asia", flag: "🇨🇳", language: "Mandarin", hello: "Nǐ hǎo (你好)", voiceCode: "zh-CN", family: "Sino-Tibetan", funFact: "Mandarin Chinese contains four main vocal tones plus a neutral tone, utilizing a logographic system." },
+      { id: "es", name: "Spain", capital: "Madrid", continent: "Europe", flag: "🇪🇸", language: "Spanish", hello: "Hola", voiceCode: "es-ES", family: "Romance", funFact: "Castilian Spanish uses a characteristic 'lisp' style sound for 'z' and 'c' before 'e' or 'i'." },
+      { id: "au", name: "Australia", capital: "Canberra", continent: "Oceania", flag: "🇦🇺", language: "English", hello: "G'day", voiceCode: "en-AU", family: "Germanic", funFact: "Australian English contains a vast lexicon of unique colloquial abbreviations (e.g. Arvo, Brekkie)." }
+    ];
+
+    // --- GUIDED LESSONS ARCHITECTURE ---
+    const lessonsDataset = [
+      {
+        id: "les-romance",
+        title: "Romance Language Roots",
+        difficulty: "Beginner",
+        icon: "heart",
+        color: "rose",
+        introduction: "Languages derived from Latin (Rome) are called Romance languages. Today we study Italian, Spanish, Portuguese, and French. They share extensive word stems (cognates).",
+        vocab: [
+          { word: "Hola", lang: "Spanish", meaning: "Hello" },
+          { word: "Olá", lang: "Portuguese", meaning: "Hello" },
+          { word: "Bonjour", lang: "French", meaning: "Hello/Good day" },
+          { word: "Ciao", lang: "Italian", meaning: "Hello/Goodbye" }
+        ],
+        interactiveCheck: {
+          question: "Which of the following is Portuguese for 'Hello'?",
+          options: ["Ciao", "Hola", "Olá", "Bonjour"],
+          correct: "Olá"
+        }
+      },
+      {
+        id: "les-germanic",
+        title: "Germanic Dialect Trees",
+        difficulty: "Intermediate",
+        icon: "shield",
+        color: "indigo",
+        introduction: "Germanic languages, including English, German, and Swedish, share strong syntactic constructs, stress patterns, and consonant shifting histories.",
+        vocab: [
+          { word: "Hallo", lang: "German", meaning: "Hello" },
+          { word: "Hej", lang: "Swedish", meaning: "Hello" },
+          { word: "G'day", lang: "Australian English", meaning: "Hello" }
+        ],
+        interactiveCheck: {
+          question: "In which Nordic country is 'Hej' the primary greeting?",
+          options: ["Germany", "Sweden", "Egypt", "Spain"],
+          correct: "Sweden"
+        }
+      },
+      {
+        id: "les-tonal",
+        title: "Tone Patterns in Asia",
+        difficulty: "Advanced",
+        icon: "music",
+        color: "amber",
+        introduction: "In tonal languages like Mandarin, Thai, and Vietnamese, vocal pitch defines the semantic meaning of syllables. The same sound with high vs. falling pitch means different words.",
+        vocab: [
+          { word: "Nǐ hǎo", lang: "Mandarin", meaning: "Hello (You good)" },
+          { word: "Sawatdee", lang: "Thai", meaning: "Hello" },
+          { word: "Xin chào", lang: "Vietnamese", meaning: "Hello" }
+        ],
+        interactiveCheck: {
+          question: "How many official tones does standard Mandarin Chinese use?",
+          options: ["Two", "Three", "Four", "Seven"],
+          correct: "Four"
+        }
+      }
+    ];
+
+    // --- SOUND ENGINE (WEB AUDIO API SYNTH) ---
+    const SoundEngine = {
+      ctx: null,
+      muted: false,
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      },
+      playCorrect() {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(523.25, now); // C5
+        osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+        osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+        osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+
+        osc.start(now);
+        osc.stop(now + 0.4);
+      },
+      playWrong() {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(220, now); // A3
+        osc.frequency.setValueAtTime(146.83, now + 0.12); // D3
+
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+        osc.start(now);
+        osc.stop(now + 0.3);
+      },
+      playTick() {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(800, now);
+
+        gain.gain.setValueAtTime(0.02, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+        osc.start(now);
+        osc.stop(now + 0.05);
+      },
+      playFlip() {
+        if (this.muted) return;
+        this.init();
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(350, now);
+        osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+
+        osc.start(now);
+        osc.stop(now + 0.15);
+      }
+    };
+
+    // --- APP GLOBAL STATE ---
+    let appState = {
+      xp: 0,
+      streak: 3, 
+      activeTab: "explorer",
+      searchQuery: "",
+      continentFilter: "All",
+      // Lessons
+      activeLessonId: "les-romance",
+      lessonScore: {},
+      // Flashcards
+      flashcardsList: [],
+      currentFlashcardIndex: 0,
+      flashcardFlipped: false,
+      // Quiz Game
+      quizActive: false,
+      quizType: "language", // language, greeting, capital, reverse
+      quizQuestions: [],
+      quizCurrentIndex: 0,
+      quizScore: 0,
+      quizTimerVal: 15,
+      quizTimerId: null,
+      // Authentication & Level Details
+      user: null // Will hold: { email: '', password: '', level: 'beginner' | 'intermediate' | 'advanced', isGoogle: boolean }
+    };
+
+    // --- TEXT TO SPEECH (TTS ENGINE) ---
+    function playNativeGreeting(text, voiceCode) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop active voices
+        // Filter out parenthesis if present
+        const cleanText = text.replace(/\(.*?\)/g, "").trim();
+        const utterance = new SpeechSynthesisUtterance(cleanText);
+        utterance.lang = voiceCode;
+
+        // Try matching a voice directly for language family accuracy
+        const voices = window.speechSynthesis.getVoices();
+        const exactVoice = voices.find(v => v.lang.startsWith(voiceCode) || v.lang.includes(voiceCode.split('-')[0]));
+        if (exactVoice) {
+          utterance.voice = exactVoice;
+        }
+        utterance.rate = 0.85; // slightly slower for instructional clarity
+        window.speechSynthesis.speak(utterance);
+        
+        showToast(`Pronouncing "${cleanText}" in ${voiceCode}`, "info");
+      } else {
+        showToast("Speech synthesis is not supported on this browser.", "warning");
+      }
+    }
+
+    // Load available voices trigger
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.getVoices();
+    }
+
+    // --- DOM INITIALIZER ---
+    window.onload = function() {
+      // Setup Lucide Icons
+      lucide.createIcons();
+      
+      // Load Initial Modules & Progress
+      loadXpAndStreak();
+      renderExplorerGrid();
+      initLessons();
+      initFlashcards();
+      setupAudioToggle();
+
+      // Show welcome Onboarding Placement modal automatically on first load!
+      setTimeout(() => {
+        openAuthModal();
+      }, 800);
+    }
+
+    // --- GAME ENGINE AND TOAST SYSTEM ---
+    function loadXpAndStreak() {
+      document.getElementById("user-xp").innerText = `${appState.xp} XP`;
+      document.getElementById("user-streak").innerText = `${appState.streak} Day Streak`;
+      updateBadge();
+    }
+
+    function addXP(amount) {
+      appState.xp += amount;
+      document.getElementById("user-xp").innerText = `${appState.xp} XP`;
+      updateBadge();
+      showToast(`+${amount} XP Earned!`, "success");
+    }
+
+    function updateBadge() {
+      const badgeElem = document.getElementById("user-badge");
+      if (!badgeElem) return;
+
+      const userLevel = appState.user ? appState.user.level : 'beginner';
+      let titlePrefix = "Novice";
+
+      if (userLevel === 'intermediate') titlePrefix = "Explorer";
+      if (userLevel === 'advanced') titlePrefix = "Master";
+
+      if (appState.xp < 100) {
+        badgeElem.innerText = `${titlePrefix} Linguist`;
+      } else if (appState.xp < 300) {
+        badgeElem.innerText = `${titlePrefix} Scholar`;
+      } else if (appState.xp < 600) {
+        badgeElem.innerText = `${titlePrefix} Specialist`;
+      } else {
+        badgeElem.innerText = `Elite Polyglot`;
+      }
+    }
+
+    function showToast(message, type = "success") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+      toast.className = `p-3.5 rounded-2xl text-xs font-semibold shadow-xl border backdrop-blur-md flex items-center gap-2.5 pointer-events-auto transform transition-all duration-300 translate-y-2 opacity-0`;
+      
+      let bg = "bg-slate-900 border-slate-800 text-white";
+      let icon = "info";
+      
+      if (type === "success") {
+        bg = "bg-indigo-950/90 border-indigo-500/30 text-indigo-200";
+        icon = "sparkles";
+      } else if (type === "warning") {
+        bg = "bg-amber-950/90 border-amber-500/30 text-amber-200";
+        icon = "alert-triangle";
+      } else if (type === "error") {
+        bg = "bg-rose-950/90 border-rose-500/30 text-rose-200";
+        icon = "x-circle";
+      }
+
+      toast.className += ` ${bg}`;
+      toast.innerHTML = `<i data-lucide="${icon}" class="w-4.5 h-4.5"></i> <span>${message}</span>`;
+      container.appendChild(toast);
+      lucide.createIcons();
+
+      // Trigger animation
+      setTimeout(() => {
+        toast.classList.remove("translate-y-2", "opacity-0");
+      }, 50);
+
+      // Dismiss
+      setTimeout(() => {
+        toast.classList.add("translate-y-2", "opacity-0");
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function setupAudioToggle() {
+      const btn = document.getElementById("toggle-audio-btn");
+      const icon = document.getElementById("audio-icon");
+      btn.onclick = () => {
+        SoundEngine.muted = !SoundEngine.muted;
+        if (SoundEngine.muted) {
+          icon.setAttribute("data-lucide", "volume-x");
+          showToast("Sound Effects muted", "warning");
+        } else {
+          icon.setAttribute("data-lucide", "volume-2");
+          SoundEngine.playCorrect();
+          showToast("Sound Effects enabled", "success");
+        }
+        lucide.createIcons();
+      };
+    }
+
+    // --- TAB NAVIGATION MOTOR ---
+    function switchTab(tabId) {
+      if (tabId !== "quiz") {
+        clearInterval(appState.quizTimerId);
+        document.getElementById("quiz-intro-panel").classList.remove("hidden");
+        document.getElementById("quiz-live-panel").classList.add("hidden");
+        document.getElementById("quiz-score-panel").classList.add("hidden");
+      }
+
+      const tabs = ["explorer", "lessons", "flashcards", "quiz", "ai"];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        const pane = document.getElementById(`pane-${t}`);
+        if (t === tabId) {
+          btn.className = "tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 shadow-sm";
+          pane.classList.remove("hidden");
+          pane.classList.add("block");
+        } else {
+          btn.className = "tab-btn px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800 border border-transparent";
+          pane.classList.add("hidden");
+          pane.classList.remove("block");
+        }
+      });
+      appState.activeTab = tabId;
+      SoundEngine.playFlip();
+    }
+
+    // --- CUSTOM DIALOG WINDOW ---
+    function showCustomModal(title, text) {
+      document.getElementById("modal-title").innerText = title;
+      document.getElementById("modal-body").innerText = text;
+      document.getElementById("custom-modal").classList.remove("hidden");
+    }
+
+    function closeCustomModal() {
+      document.getElementById("custom-modal").classList.add("hidden");
+    }
+
+    // --- AUTHENTICATION & PLACEMENT LOGIC ---
+    function openAuthModal() {
+      // Clear values
+      document.getElementById("auth-email-input").value = "";
+      document.getElementById("auth-password-input").value = "";
+
+      // Transition to primary auth screen
+      document.getElementById("auth-panel-form").classList.remove("hidden");
+      document.getElementById("auth-panel-placement").classList.add("hidden");
+
+      document.getElementById("auth-modal").classList.remove("hidden");
+      SoundEngine.playFlip();
+    }
+
+    function closeAuthModal() {
+      document.getElementById("auth-modal").classList.add("hidden");
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById("auth-password-input");
+      const icon = document.getElementById("auth-eye-icon");
+      if (input.type === "password") {
+        input.type = "text";
+        icon.setAttribute("data-lucide", "eye-off");
+      } else {
+        input.type = "password";
+        icon.setAttribute("data-lucide", "eye");
+      }
+      lucide.createIcons();
+    }
+
+    function continueWithGoogle() {
+      // Simulate Google Sign-In with dynamic name
+      appState.user = {
+        email: "google.student@gmail.com",
+        password: "N/A",
+        isGoogle: true
+      };
+
+      SoundEngine.playCorrect();
+      showToast("Connected securely via Google!", "success");
+
+      // Slide over to placement selection
+      document.getElementById("auth-panel-form").classList.add("hidden");
+      document.getElementById("auth-panel-placement").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function submitEmailAuth() {
+      const email = document.getElementById("auth-email-input").value.trim();
+      const password = document.getElementById("auth-password-input").value.trim();
+
+      if (!email || !password) {
+        showToast("Please provide both an email and password to proceed.", "warning");
+        return;
+      }
+
+      // Quick validation for student format
+      if (!email.includes("@") || email.length < 5) {
+        showToast("Please enter a valid academic email address.", "error");
+        return;
+      }
+
+      appState.user = {
+        email: email,
+        password: password,
+        isGoogle: false
+      };
+
+      SoundEngine.playCorrect();
+      showToast("Access Authorized!", "success");
+
+      // Slide over to placement selection
+      document.getElementById("auth-panel-form").classList.add("hidden");
+      document.getElementById("auth-panel-placement").classList.remove("hidden");
+      lucide.createIcons();
+    }
+
+    function selectOnboardingLevel(level) {
+      if (!appState.user) return;
+      appState.user.level = level;
+
+      let scoreIncrement = 0;
+      let levelGreeting = "";
+
+      if (level === "beginner") {
+        scoreIncrement = 10;
+        levelGreeting = "Placement Level set to Beginner! Level up your language proficiency starting now.";
+      } else if (level === "intermediate") {
+        scoreIncrement = 150;
+        levelGreeting = "Placement Level set to Intermediate! Germanic Lessons are now optimized for you.";
+        // Auto transition to Germanic Lesson
+        appState.activeLessonId = "les-germanic";
+      } else if (level === "advanced") {
+        scoreIncrement = 300;
+        levelGreeting = "Placement Level set to Advanced! Tonal pitch checkmarks are unlocked.";
+        // Auto transition to Tonal Lessons
+        appState.activeLessonId = "les-tonal";
+      }
+
+      appState.xp = 0; // Reset or award fresh
+      addXP(scoreIncrement);
+
+      // Save user profile state UI
+      const userEmailDisplay = appState.user.email;
+      const initials = userEmailDisplay.substring(0, 2).toUpperCase();
+
+      const authZone = document.getElementById("header-auth-zone");
+      authZone.innerHTML = `
+        <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-2xl p-1.5 pr-3">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold font-display text-xs tracking-tight">
+            ${initials}
+          </div>
+          <div class="hidden sm:block text-left">
+            <span class="text-[10px] block font-bold text-slate-300 truncate max-w-[120px]" title="${userEmailDisplay}">${userEmailDisplay}</span>
+            <span class="text-[9px] block text-indigo-400 uppercase font-semibold tracking-wider font-display">${level} student</span>
+          </div>
+          <button onclick="logoutAcademy()" class="p-1 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all ml-1" title="Sign Out">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      `;
+
+      closeAuthModal();
+      lucide.createIcons();
+
+      // Show beautiful welcome modal summary
+      showCustomModal("Welcome to the Academy!", `You are registered successfully as a ${level} student.\n\n${levelGreeting}\n\nExplore native audio cues in the Explorer, flip flashcards, and compete in the Quiz Arena.`);
+      
+      initLessons();
+    }
+
+    function logoutAcademy() {
+      appState.user = null;
+      appState.xp = 0;
+      loadXpAndStreak();
+
+      // Reset Header Back
+      const authZone = document.getElementById("header-auth-zone");
+      authZone.innerHTML = `
+        <button onclick="openAuthModal()" class="px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-all shadow-md flex items-center gap-1.5">
+          <i data-lucide="log-in" class="w-4 h-4"></i> Sign In / Join
+        </button>
+      `;
+
+      showToast("Signed Out of Academy Profile", "info");
+      lucide.createIcons();
+    }
+
+    // --- EXPLORER CORE ENGINE ---
+    function renderExplorerGrid() {
+      const grid = document.getElementById("explorer-grid");
+      grid.innerHTML = "";
+
+      const filtered = countriesDataset.filter(c => {
+        const matchesSearch = c.name.toLowerCase().includes(appState.searchQuery.toLowerCase()) || 
+                              c.capital.toLowerCase().includes(appState.searchQuery.toLowerCase()) || 
+                              c.language.toLowerCase().includes(appState.searchQuery.toLowerCase());
+        const matchesContinent = appState.continentFilter === "All" || c.continent === appState.continentFilter;
+        return matchesSearch && matchesContinent;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-16 text-center space-y-4">
+            <div class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-500">
+              <i data-lucide="help-circle"></i>
+            </div>
+            <div>
+              <p class="text-slate-300 font-semibold">No countries match your search parameters.</p>
+              <p class="text-slate-500 text-xs">Try selecting 'All Continents' or typing another query.</p>
+            </div>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filtered.forEach(country => {
+        const card = document.createElement("div");
+        card.className = "bg-slate-900/60 border border-slate-850 hover:border-indigo-500/40 rounded-3xl p-5 hover:bg-slate-900 transition-all shadow-md group flex flex-col justify-between space-y-5";
+        card.innerHTML = `
+          <div class="space-y-4">
+            <!-- Header flag and basic country naming -->
+            <div class="flex justify-between items-start">
+              <div class="flex items-center gap-3">
+                <span class="text-4xl group-hover:scale-110 transition-transform duration-300">${country.flag}</span>
+                <div>
+                  <h3 class="font-display font-extrabold text-lg text-white group-hover:text-indigo-300 transition-all">${country.name}</h3>
+                  <span class="text-[10px] uppercase font-semibold text-indigo-400 tracking-wider">${country.continent}</span>
+                </div>
+              </div>
+              <span class="px-2.5 py-1 bg-slate-950 border border-slate-800 rounded-lg text-[10px] text-slate-400 font-semibold">
+                Cap: ${country.capital}
+              </span>
+            </div>
+
+            <!-- Linguistic profiles inside card -->
+            <div class="p-3 bg-slate-950/60 border border-slate-800/80 rounded-2xl space-y-2">
+              <div class="flex justify-between text-xs">
+                <span class="text-slate-500">Language Family:</span>
+                <span class="font-semibold text-slate-300">${country.family}</span>
+              </div>
+              <div class="flex justify-between text-xs items-center">
+                <span class="text-slate-500">Primary Language:</span>
+                <span class="px-2 py-0.5 bg-indigo-500/10 text-indigo-300 rounded-md font-semibold text-[10px] border border-indigo-500/15">
+                  ${country.language}
+                </span>
+              </div>
+            </div>
+
+            <!-- Conversational starter phrases -->
+            <div class="flex items-center justify-between bg-slate-900 border border-slate-800/60 px-3.5 py-2.5 rounded-2xl">
+              <div>
+                <span class="text-[9px] block text-slate-500 font-bold uppercase tracking-wider">Useful Greeting ("Hello")</span>
+                <span class="text-sm font-bold text-white">${country.hello}</span>
+              </div>
+              <button onclick="playNativeGreeting('${country.hello}', '${country.voiceCode}')" class="p-2 bg-indigo-500/10 hover:bg-indigo-500/30 text-indigo-400 hover:text-white rounded-xl transition-all" title="Listen to native translation">
+                <i data-lucide="volume-2" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="pt-3 border-t border-slate-850 flex items-center justify-between gap-2">
+            <button onclick="queryCountryLanguageHistory('${country.name}', '${country.language}')" class="flex-grow py-2 bg-slate-950 hover:bg-slate-900 border border-slate-850 hover:border-slate-800 rounded-xl text-xs text-slate-300 hover:text-white transition-all font-medium flex items-center justify-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5 text-purple-400"></i> Ask Tutor
+            </button>
+            <button onclick="showFunFact('${country.name}', \`${country.funFact}\`)" class="p-2 bg-slate-950 border border-slate-850 hover:border-slate-800 hover:text-slate-200 rounded-xl text-slate-400 transition-all" title="View culture fact">
+              <i data-lucide="info" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    // --- EXPLORER FILTER HANDLERS ---
+    function filterCountries() {
+      appState.searchQuery = document.getElementById("search-country-input").value;
+      appState.continentFilter = document.getElementById("continent-filter").value;
+      renderExplorerGrid();
+    }
+
+    function showFunFact(country, fact) {
+      SoundEngine.playFlip();
+      showCustomModal(`${country} - Cultural Nugget`, fact);
+    }
+
+    // --- LESSON ENGINE ---
+    function initLessons() {
+      const container = document.getElementById("lesson-selector-container");
+      container.innerHTML = "";
+
+      lessonsDataset.forEach(l => {
+        const activeClass = l.id === appState.activeLessonId ? 'border-indigo-500 bg-indigo-500/5 text-indigo-300' : 'border-slate-850 hover:border-slate-800 text-slate-400 hover:text-slate-200';
+        const button = document.createElement("button");
+        button.onclick = () => selectLesson(l.id);
+        button.className = `w-full text-left p-4 rounded-2xl border transition-all ${activeClass} flex items-center justify-between group`;
+        button.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="p-2 bg-slate-950 rounded-xl text-slate-300 group-hover:scale-105 transition-all">
+              <i data-lucide="${l.icon}" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-sm text-white">${l.title}</h4>
+              <span class="text-[10px] text-slate-500">${l.difficulty}</span>
+            </div>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 opacity-0 group-hover:opacity-100 transition-all text-indigo-400"></i>
+        `;
+        container.appendChild(button);
+      });
+      lucide.createIcons();
+      showLesson(appState.activeLessonId);
+    }
+
+    function selectLesson(id) {
+      appState.activeLessonId = id;
+      initLessons();
+    }
+
+    function showLesson(id) {
+      const lesson = lessonsDataset.find(l => l.id === id);
+      const activeBox = document.getElementById("active-lesson-box");
+      
+      let vocabHtml = "";
+      lesson.vocab.forEach(v => {
+        vocabHtml += `
+          <div class="p-3.5 bg-slate-950 border border-slate-850 rounded-2xl flex items-center justify-between">
+            <div>
+              <span class="text-[10px] text-slate-500 block uppercase font-bold tracking-wider">${v.lang}</span>
+              <span class="font-bold text-lg text-indigo-300">${v.word}</span>
+            </div>
+            <div class="text-right">
+              <span class="text-[10px] text-slate-500 block uppercase font-bold tracking-wider">Meaning</span>
+              <span class="text-sm font-semibold text-slate-300">${v.meaning}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      let checkStateHtml = `
+        <div class="p-4 bg-indigo-950/20 border border-indigo-500/20 rounded-2xl space-y-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="help-circle" class="w-5 h-5 text-indigo-400"></i>
+            <h4 class="font-bold text-sm text-white">Quiz Checkpoint</h4>
+          </div>
+          <p class="text-slate-300 text-xs">${lesson.interactiveCheck.question}</p>
+          <div class="grid grid-cols-2 gap-2 pt-1" id="lesson-check-options">
+            ${lesson.interactiveCheck.options.map(o => `
+              <button onclick="checkLessonAnswer('${o}', '${lesson.interactiveCheck.correct}')" class="px-3 py-2 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-indigo-500/30 rounded-xl text-xs text-slate-300 font-semibold transition-all">
+                ${o}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      activeBox.innerHTML = `
+        <div class="space-y-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <span class="text-[10px] text-indigo-400 uppercase tracking-widest font-bold font-display">Active Lesson Pathway</span>
+              <h3 class="text-2xl font-extrabold font-display text-white mt-1">${lesson.title}</h3>
+            </div>
+            <span class="px-3 py-1 bg-indigo-500/10 text-indigo-400 rounded-full text-xs font-semibold border border-indigo-500/20">
+              ${lesson.difficulty}
+            </span>
+          </div>
+
+          <p class="text-slate-300 text-sm leading-relaxed">${lesson.introduction}</p>
+
+          <div class="space-y-2">
+            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Linguistic Vocabulary Stems</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              ${vocabHtml}
+            </div>
+          </div>
+
+          ${checkStateHtml}
+        </div>
+      `;
+      lucide.createIcons();
+    }
+
+    function checkLessonAnswer(selected, correct) {
+      if (selected === correct) {
+        SoundEngine.playCorrect();
+        showToast("Correct! Lesson checkpoint matched perfectly.", "success");
+        addXP(25);
+      } else {
+        SoundEngine.playWrong();
+        showToast("Not quite! Study the word stems above and try again.", "error");
+      }
+    }
+
+    // --- FLASHCARDS LOGIC ---
+    function initFlashcards() {
+      const selectedContinent = document.getElementById("flashcard-continent").value;
+      appState.flashcardsList = countriesDataset.filter(c => selectedContinent === "All" || c.continent === selectedContinent);
+      appState.currentFlashcardIndex = 0;
+      appState.flashcardFlipped = false;
+      
+      updateFlashcardView();
+    }
+
+    function updateFlashcardView() {
+      if (appState.flashcardsList.length === 0) {
+        document.getElementById("fc-flag").innerText = "🗺️";
+        document.getElementById("fc-country").innerText = "No Cards";
+        document.getElementById("fc-capital").innerText = "Change filters";
+        document.getElementById("fc-counter").innerText = "Card 0 of 0";
+        return;
+      }
+
+      const activeItem = appState.flashcardsList[appState.currentFlashcardIndex];
+      const inner = document.getElementById("flashcard-inner");
+      
+      inner.classList.remove("rotate-y-180");
+      appState.flashcardFlipped = false;
+
+      // Populate Front Side
+      document.getElementById("fc-flag").innerText = activeItem.flag;
+      document.getElementById("fc-country").innerText = activeItem.name;
+      document.getElementById("fc-capital").innerText = `Capital City: ${activeItem.capital}`;
+
+      // Populate Back Side
+      document.getElementById("fc-language").innerText = activeItem.language;
+      document.getElementById("fc-greeting").innerText = activeItem.hello;
+      
+      // Update Counter
+      document.getElementById("fc-counter").innerText = `Card ${appState.currentFlashcardIndex + 1} of ${appState.flashcardsList.length}`;
+      lucide.createIcons();
+    }
+
+    function flipFlashcard() {
+      const inner = document.getElementById("flashcard-inner");
+      appState.flashcardFlipped = !appState.flashcardFlipped;
+      SoundEngine.playFlip();
+
+      if (appState.flashcardFlipped) {
+        inner.classList.add("rotate-y-180");
+      } else {
+        inner.classList.remove("rotate-y-180");
+      }
+    }
+
+    function prevFlashcard() {
+      if (appState.flashcardsList.length === 0) return;
+      appState.currentFlashcardIndex = (appState.currentFlashcardIndex - 1 + appState.flashcardsList.length) % appState.flashcardsList.length;
+      updateFlashcardView();
+      SoundEngine.playTick();
+    }
+
+    function nextFlashcard() {
+      if (appState.flashcardsList.length === 0) return;
+      appState.currentFlashcardIndex = (appState.currentFlashcardIndex + 1) % appState.flashcardsList.length;
+      updateFlashcardView();
+      SoundEngine.playTick();
+    }
+
+    function playFlashcardGreeting() {
+      const activeItem = appState.flashcardsList[appState.currentFlashcardIndex];
+      playNativeGreeting(activeItem.hello, activeItem.voiceCode);
+    }
+
+    // --- GAMIFIED LINGO ARENA QUIZ ---
+    function startQuiz(type) {
+      appState.quizActive = true;
+      appState.quizType = type;
+      appState.quizScore = 0;
+      appState.quizCurrentIndex = 0;
+      appState.quizQuestions = [];
+
+      const shuffled = [...countriesDataset].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 5);
+
+      selected.forEach((country, index) => {
+        const distractors = countriesDataset
+          .filter(c => c.id !== country.id)
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 3);
+
+        let questionText = "";
+        let flag = country.flag;
+        let correctAnswer = "";
+        let options = [];
+
+        if (type === "language") {
+          questionText = `What is the primary language spoken in ${country.name}?`;
+          correctAnswer = country.language;
+          options = [country.language, ...distractors.map(d => d.language)];
+        } else if (type === "greeting") {
+          const phraseText = country.hello.replace(/\(.*?\)/g, "").trim();
+          questionText = `Which language uses "${phraseText}" as a standard greeting?`;
+          correctAnswer = country.language;
+          options = [country.language, ...distractors.map(d => d.language)];
+        } else if (type === "capital") {
+          questionText = `What is the capital city of ${country.name}?`;
+          correctAnswer = country.capital;
+          options = [country.capital, ...distractors.map(d => d.capital)];
+        } else if (type === "reverse") {
+          questionText = `In which country is ${country.language} recognized as standard?`;
+          correctAnswer = country.name;
+          options = [country.name, ...distractors.map(d => d.name)];
+        }
+
+        options = options.sort(() => 0.5 - Math.random());
+
+        options = [...new Set(options)];
+        while (options.length < 4) {
+          const randomExtra = countriesDataset[Math.floor(Math.random() * countriesDataset.length)];
+          const val = type === "language" || type === "greeting" ? randomExtra.language : (type === "capital" ? randomExtra.capital : randomExtra.name);
+          if (!options.includes(val)) {
+            options.push(val);
+          }
+        }
+
+        appState.quizQuestions.push({
+          flag,
+          questionText,
+          correctAnswer,
+          options
+        });
+      });
+
+      // Update UI Transition
+      document.getElementById("quiz-intro-panel").classList.add("hidden");
+      document.getElementById("quiz-score-panel").classList.add("hidden");
+      document.getElementById("quiz-live-panel").classList.remove("hidden");
+      
+      const label = document.getElementById("quiz-mode-label");
+      if (type === "language") label.innerText = "Challenge: Country Language Match";
+      if (type === "greeting") label.innerText = "Challenge: Native Greeting Match";
+      if (type === "capital") label.innerText = "Challenge: Capital Geography Match";
+      if (type === "reverse") label.innerText = "Challenge: Language Origins Match";
+
+      loadQuizQuestion();
+    }
+
+    function loadQuizQuestion() {
+      if (appState.quizCurrentIndex >= appState.quizQuestions.length) {
+        finishQuiz();
+        return;
+      }
+
+      appState.quizTimerVal = 15;
+      document.getElementById("quiz-timer").innerText = "15s";
+      document.getElementById("quiz-timer").className = "font-bold text-indigo-400";
+      clearInterval(appState.quizTimerId);
+      
+      appState.quizTimerId = setInterval(() => {
+        appState.quizTimerVal--;
+        document.getElementById("quiz-timer").innerText = `${appState.quizTimerVal}s`;
+        SoundEngine.playTick();
+
+        if (appState.quizTimerVal <= 5) {
+          document.getElementById("quiz-timer").className = "font-bold text-rose-500 animate-pulse";
+        }
+
+        if (appState.quizTimerVal <= 0) {
+          clearInterval(appState.quizTimerId);
+          handleAnswerSelection(null); 
+        }
+      }, 1000);
+
+      const q = appState.quizQuestions[appState.quizCurrentIndex];
+      const progressPercent = (appState.quizCurrentIndex / appState.quizQuestions.length) * 100;
+      document.getElementById("quiz-progress").style.width = `${progressPercent}%`;
+
+      document.getElementById("q-flag").innerText = q.flag;
+      document.getElementById("q-text").innerText = q.questionText;
+
+      const optContainer = document.getElementById("q-options");
+      optContainer.innerHTML = "";
+
+      q.options.forEach(opt => {
+        const btn = document.createElement("button");
+        btn.onclick = () => handleAnswerSelection(opt);
+        btn.className = "p-4 bg-slate-950 border border-slate-800 rounded-2xl text-left hover:border-indigo-500/50 hover:bg-slate-900 transition-all font-semibold text-sm text-slate-200";
+        btn.innerText = opt;
+        optContainer.appendChild(btn);
+      });
+    }
+
+    function handleAnswerSelection(selected) {
+      clearInterval(appState.quizTimerId);
+      const q = appState.quizQuestions[appState.quizCurrentIndex];
+      const optButtons = document.querySelectorAll("#q-options button");
+
+      optButtons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.innerText === q.correctAnswer) {
+          btn.classList.remove("bg-slate-950", "border-slate-800");
+          btn.classList.add("bg-emerald-500/20", "border-emerald-500", "text-emerald-300");
+        } else if (selected && btn.innerText === selected) {
+          btn.classList.remove("bg-slate-950", "border-slate-800");
+          btn.classList.add("bg-rose-500/20", "border-rose-500", "text-rose-300");
+        }
+      });
+
+      if (selected === q.correctAnswer) {
+        SoundEngine.playCorrect();
+        appState.quizScore++;
+        showToast("Correct Answer!", "success");
+      } else {
+        SoundEngine.playWrong();
+        showToast(selected === null ? "Time's Up!" : "Incorrect!", "error");
+      }
+
+      setTimeout(() => {
+        appState.quizCurrentIndex++;
+        loadQuizQuestion();
+      }, 1200);
+    }
+
+    function finishQuiz() {
+      document.getElementById("quiz-live-panel").classList.add("hidden");
+      document.getElementById("quiz-score-panel").classList.remove("hidden");
+
+      const progressRing = document.getElementById("score-progress-ring");
+      const radius = 40;
+      const circumference = 2 * Math.PI * radius; 
+      const percent = (appState.quizScore / 5) * 100;
+      const offset = circumference - (percent / 100) * circumference;
+      progressRing.style.strokeDashoffset = offset;
+
+      document.getElementById("score-text").innerText = `${appState.quizScore}/5`;
+
+      const scoreAch = document.getElementById("score-achievement");
+      const scoreRew = document.getElementById("score-reward-xp");
+      const retryBtn = document.getElementById("retry-quiz-btn");
+
+      let xpReward = appState.quizScore * 15;
+      if (appState.quizScore === 5) {
+        xpReward += 50; 
+        scoreAch.innerText = "Legendary! Perfect Score Match!";
+        scoreAch.className = "text-emerald-400 font-extrabold text-lg";
+      } else if (appState.quizScore >= 3) {
+        scoreAch.innerText = "Excellent Attempt!";
+        scoreAch.className = "text-indigo-400 font-bold text-md";
+      } else {
+        scoreAch.innerText = "Keep Training! Practice makes polyglots.";
+        scoreAch.className = "text-slate-400 font-semibold text-md";
+      }
+
+      scoreRew.innerText = `+${xpReward} XP earned and injected into status.`;
+      addXP(xpReward);
+
+      retryBtn.onclick = () => startQuiz(appState.quizType);
+    }
+
+    function resetQuizDashboard() {
+      document.getElementById("quiz-score-panel").classList.add("hidden");
+      document.getElementById("quiz-live-panel").classList.add("hidden");
+      document.getElementById("quiz-intro-panel").classList.remove("hidden");
+      SoundEngine.playFlip();
+    }
+
+    // --- GEMINI INTELLIGENT AI MOTOR ---
+    const apiKey = ""; 
+
+    async function callGeminiLinguisticBuddy(prompt, systemInstruction) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+      const payload = {
+        contents: [{ parts: [{ text: prompt }] }],
+        systemInstruction: { parts: [{ text: systemInstruction }] }
+      };
+
+      const maxRetries = 5;
+      let delay = 1000;
+
+      for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            return text || "No response details generated from model.";
+          }
+        } catch (err) {
+          // Retry
+        }
+
+        if (attempt < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, delay));
+          delay *= 2;
+        }
+      }
+
+      throw new Error("Unable to contact linguistic servers. Check connectivity.");
+    }
+
+    // --- CHAT INTERACTION UTILITIES ---
+    function appendChatMessage(sender, text) {
+      const chatHistory = document.getElementById("ai-chat-history");
+      const messageDiv = document.createElement("div");
+      
+      if (sender === "user") {
+        messageDiv.className = "flex gap-3 max-w-xl ml-auto justify-end";
+        messageDiv.innerHTML = `
+          <div class="p-3.5 rounded-2xl bg-indigo-600/25 border border-indigo-500/30 text-sm text-indigo-100 leading-relaxed max-w-md">
+            ${text}
+          </div>
+          <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold shrink-0">
+            ME
+          </div>
+        `;
+      } else {
+        messageDiv.className = "flex gap-3 max-w-xl animate-fade-in";
+        messageDiv.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+            AI
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-950 border border-slate-800 text-sm leading-relaxed text-slate-300 font-sans">
+            ${text.replace(/\n/g, '<br>')}
+          </div>
+        `;
+      }
+
+      chatHistory.appendChild(messageDiv);
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    async function submitAiQuery() {
+      const input = document.getElementById("ai-user-input");
+      const text = input.value.trim();
+      if (!text) return;
+
+      input.value = "";
+      appendChatMessage("user", text);
+      
+      const loader = document.getElementById("ai-loader");
+      loader.classList.remove("hidden");
+
+      const systemInstruction = "You are a friendly, encouraging global linguist and etymology guide at the Language Teaching Academy. Provide clear, safe, and age-appropriate answers, translations, memorable stories/mnemonics, or dialect histories. Keep paragraphs elegant and moderately short. Avoid anything inappropriate or unsafe for minors under 18.";
+
+      try {
+        const responseText = await callGeminiLinguisticBuddy(text, systemInstruction);
+        appendChatMessage("ai", responseText);
+        addXP(10); 
+      } catch (err) {
+        appendChatMessage("ai", "Linguistic servers are currently at capacity. Let's try again in a few moments!");
+      } finally {
+        loader.classList.add("hidden");
+      }
+    }
+
+    function handleAiInput(e) {
+      if (e.key === 'Enter') {
+        submitAiQuery();
+      }
+    }
+
+    function aiPromptPreset(promptText) {
+      switchTab("ai");
+      const input = document.getElementById("ai-user-input");
+      input.value = promptText;
+      submitAiQuery();
+    }
+
+    async function queryCountryLanguageHistory(countryName, languageName) {
+      switchTab("ai");
+      
+      const prompt = `Explain the origin and historical significance of the ${languageName} language in ${countryName}. Give 3 interesting, safe cultural tips about speaking it properly.`;
+      const input = document.getElementById("ai-user-input");
+      input.value = prompt;
+      submitAiQuery();
+    }
+  </script>
+</body>
+</html>
